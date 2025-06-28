@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inspection Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-size: 10pt;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #005587; /* Eurofins Blue */
+            margin-bottom: 0.5em;
+        }
+        h1 { font-size: 24pt; }
+        h2 { font-size: 18pt; border-bottom: 2px solid #78BE20; /* Eurofins Green */ padding-bottom: 5px;}
+        h3 { font-size: 14pt; color: #005587; border-bottom: 1px solid #eee; padding-bottom: 3px; margin-top: 20px;}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header img {
+            max-width: 200px;
+            margin-bottom: 10px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 20px;
+        }
+        .info-grid div {
+            padding-bottom: 5px;
+        }
+        .info-grid strong {
+            display: inline-block;
+            width: 200px;
+        }
+        .signature-section {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .signature-box {
+            border-top: 1px solid #333;
+            padding-top: 10px;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="https://www.eurofins.com/media/10586/logo_main.png" alt="Eurofins Logo">
+        <h1>BÁO CÁO GIÁM ĐỊNH / INSPECTION REPORT</h1>
+    </div>
+
+    <!-- Sử dụng Jinja2 để chèn dữ liệu. data là biến được truyền từ Python -->
+    {% set info = data.generalInfo %}
+
+    <h2>Thông tin chung / General Information</h2>
+    <div class="info-grid">
+        <div><strong>Số tài liệu/Document No:</strong> {{ info.documentNo }}</div>
+        <div><strong>Số phiên bản/Version No:</strong> {{ info.versionNo }}</div>
+        <div><strong>Ngày phát hành/Published on:</strong> {{ info.publishedDate }}</div>
+        <div><strong>Số đơn hàng/Order No:</strong> {{ info.orderNo }}</div>
+        <div><strong>Nhà cung cấp/Supplier:</strong> {{ info.supplierName }}</div>
+        <div><strong>Khách hàng/Customer:</strong> {{ info.customerName }}</div>
+        <div><strong>Số hợp đồng/Contract No:</strong> {{ info.contractNumber }}</div>
+        <div><strong>Số lượng nhận/Received Qty:</strong> {{ info.receivedQuantity }}</div>
+        <div><strong>Số container/Container No:</strong> {{ info.containerNumber }}</div>
+        <div><strong>Ngày hàng đến/ETA:</strong> {{ info.eta }}</div>
+        <div><strong>Địa điểm/Location:</strong> {{ info.location }}</div>
+        <div><strong>Ngày kiểm hàng/Inspection Date:</strong> {{ info.inspectionDate }}</div>
+    </div>
+
+    <h3>Thông tin sản phẩm / Product Information</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Tên sản phẩm/Product Name</th>
+                <th>Kích cỡ/Size</th>
+                <th>Số lượng nhận/Received Qty</th>
+                <th>Trọng lượng tịnh/Net Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in data.products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.size }}</td>
+                <td>{{ product.receivedQuantity }}</td>
+                <td>{{ product.netWeight }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4">Không có thông tin sản phẩm. / No product information.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Trạng thái container / Container Status</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Đặc điểm/Feature</th>
+                <th>Trạng thái/Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for status in data.containerStatus %}
+            <tr>
+                <td>{{ status.feature }}</td>
+                <td>
+                    {% if status.isOk == True %}
+                        OK
+                    {% elif status.isOk == False %}
+                        NG (Not Good)
+                    {% else %}
+                        N/A (Not Applicable)
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Giám định chất lượng / Quality Inspection</h2>
+    <h3>1. Đặc điểm kỹ thuật sản phẩm / Product Specifications</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Sản phẩm/Product</th>
+                <th>Đặc điểm giống/Variety</th>
+                <th>Mọng nước/Juicy</th>
+                <th>Độ Brix/Brix</th>
+                <th>Độ cứng/Firmness</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in data.products %}
+            <tr>
+                <td>{{ p.name }} ({{ p.size }})</td>
+                <td>{{ p.varietyCharacteristics or 'N/A' }}</td>
+                <td>{{ p.juicyLevel or 'N/A' }}</td>
+                <td>{{ p.brixDegree or 'N/A' }}</td>
+                <td>{{ p.firmness or 'N/A' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5">Không có dữ liệu. / No data.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>2. Kiểm tra khối lượng tịnh / Net Weight Checking</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Sản phẩm/Product</th>
+                <th>KL trung bình/Avg. Net Weight (kg)</th>
+                <th>Mục tiêu/Target (kg)</th>
+                <th>Trạng thái/Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in data.products %}
+            <tr>
+                <td>{{ p.name }} ({{ p.size }})</td>
+                <td>{{ data.weightSampling[p.id|string].averageWeight or 'N/A' }}</td>
+                <td>{{ data.weightSampling[p.id|string].targetWeight or 'N/A' }}</td>
+                <td>{{ p.weightStatus or 'N/A' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4">Không có dữ liệu. / No data.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3>3. Đánh giá lỗi / Defects Assessment</h3>
+     <table>
+        <thead>
+            <tr>
+                <th>Sản phẩm/Product</th>
+                <th>Lỗi nghiêm trọng/Serious (%)</th>
+                <th>Lỗi lớn/Major (%)</th>
+                <th>Lỗi nhẹ/Minor (%)</th>
+                <th>Quả rụng/Shattering (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in data.products %}
+            <tr>
+                <td>{{ p.name }} ({{ p.size }})</td>
+                <td>{{ data.defectAssessment[p.id|string].seriousDefectsPercentage or '0' }}</td>
+                <td>{{ data.defectAssessment[p.id|string].majorDefectsPercentage or '0' }}</td>
+                <td>{{ data.defectAssessment[p.id|string].minorDefectsPercentage or '0' }}</td>
+                <td>{{ data.defectAssessment[p.id|string].shatteringBerriesPercentage or '0' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5">Không có dữ liệu. / No data.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Nhận xét & Chữ ký / Comments & Signatures</h2>
+    <h3>Nhận xét chung / General Comments</h3>
+    <p>{{ data.comments or 'Không có nhận xét.' }}</p>
+    
+    <h3>Nhận xét chất lượng / Quality Comments</h3>
+    <p>{{ data.qualityComments or 'Không có nhận xét.' }}</p>
+
+    <div class="signature-section">
+        <div>
+            <p><strong>Người giám định / Inspector:</strong> {{ data.inspectorName }}</p>
+            <div class="signature-box">Chữ ký / Signature</div>
+        </div>
+        <div>
+            <p><strong>Người duyệt / Reviewer:</strong> {{ data.reviewerName }}</p>
+            <div class="signature-box">Chữ ký / Signature</div>
+        </div>
+    </div>
+
+</body>
+</html>

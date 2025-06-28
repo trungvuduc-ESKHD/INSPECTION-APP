@@ -1,0 +1,8 @@
+streamlit
+pandas
+fpdf2
+python-docx
+Pillow
+streamlit-drawable-canvas
+numpy
+streamlit-option-menu

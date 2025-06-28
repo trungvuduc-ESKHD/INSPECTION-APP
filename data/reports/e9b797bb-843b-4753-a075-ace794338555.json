@@ -1,0 +1,351 @@
+{
+    "generalInfo": {
+        "documentNo": "EHC-TP8.4-02/F01",
+        "versionNo": "1",
+        "department": "INSPECTION",
+        "inspectedBy": "EUROFINS VN",
+        "publishedDate": "26.06.2025",
+        "orderNo": "2134-213487",
+        "supplierName": "EUROFINS",
+        "customerName": "SKHD",
+        "contractNumber": "12395",
+        "receivedQuantity": "1500",
+        "containerNumber": "YLMYU-124",
+        "eta": "2025-06-27",
+        "location": "WareHouse",
+        "inspectionDate": "2025-06-27",
+        "report_name": "newreport",
+        "report_id": "e9b797bb-843b-4753-a075-ace794338555"
+    },
+    "products": [
+        {
+            "id": "ac2cb3b3-4aa1-417e-a560-7b9a411042c8",
+            "name": "DURIAN",
+            "size": "50MM",
+            "receivedQuantity": "1500",
+            "netWeight": "1.74",
+            "varietyCharacteristics": "",
+            "juicyLevel": "",
+            "brixDegree": "",
+            "firmness": "",
+            "weightStatus": "L\u1ed7i"
+        }
+    ],
+    "containerStatus": [
+        {
+            "feature": "Ph\u01b0\u01a1ng ti\u1ec7n s\u1ea1ch s\u1ebd?/Container is clean?",
+            "isOk": null
+        },
+        {
+            "feature": "H\u1ec7 th\u1ed1ng th\u00f4ng gi\u00f3 ho\u1ea1t \u0111\u1ed9ng t\u1ed1t?/Ventilation system is ok?",
+            "isOk": null
+        },
+        {
+            "feature": "Kh\u00f4ng r\u00f2 r\u1ec9?/No leakage?",
+            "isOk": null
+        },
+        {
+            "feature": "Thi\u1ebft b\u1ecb ghi nhi\u1ec7t ho\u1ea1t \u0111\u1ed9ng t\u1ed1t?/Temperature recorder is good?",
+            "isOk": null
+        },
+        {
+            "feature": "T\u00ecnh tr\u1ea1ng ki\u1ec7n h\u00e0ng (m\u00f3p m\u00e9o, h\u01b0 h\u1ea1i)?/Package status (deformed, damaged)?",
+            "isOk": null
+        },
+        {
+            "feature": "M\u00f9i l\u1ea1?/Any abnormal smell?",
+            "isOk": null
+        },
+        {
+            "feature": "Nhi\u1ec7t \u0111\u1ed9 c\u1ee7a ph\u01b0\u01a1ng ti\u1ec7n khi \u0111\u1ebfn n\u01a1i?/Container temperature upon arrival?",
+            "isOk": null
+        }
+    ],
+    "defectAssessment": {
+        "ac2cb3b3-4aa1-417e-a560-7b9a411042c8": {
+            "seriousDefectsPercentage": "0.0000",
+            "majorDefectsPercentage": "0.0000",
+            "minorDefectsPercentage": "0.0000",
+            "shatteringBerriesPercentage": "0.0000",
+            "totalSampleWeight": "0.000"
+        }
+    },
+    "detailedDefectAssessment": {
+        "ac2cb3b3-4aa1-417e-a560-7b9a411042c8": {
+            "seriousDefects": [
+                {
+                    "defectType": "L\u1ed6I NGHI\u00caM TR\u1eccNG/ SERIOUS DEFECTS",
+                    "description": "S\u1ef1 suy gi\u1ea3m ho\u1eb7c bi\u1ebfn \u0111\u1ed5i...",
+                    "weight": "",
+                    "percentage": "0.0000"
+                }
+            ],
+            "majorDefects": [
+                {
+                    "defectType": "MAJOR 1 DEFECTS",
+                    "description": "H\u01af H\u1eceNG DO C\u00d4N TR\u00d9NG...",
+                    "weight": "",
+                    "percentage": "0.0000"
+                },
+                {
+                    "defectType": "MAJOR 2 DEFECTS",
+                    "description": "H\u01af H\u1eceNG V\u1eacT L\u00dd...",
+                    "weight": "",
+                    "percentage": "0.0000"
+                },
+                {
+                    "defectType": "MAJOR 3 DEFECTS",
+                    "description": "V\u1ebeT DA/KHUY\u1ebeT T\u1eacT...",
+                    "weight": "",
+                    "percentage": "0.0000"
+                }
+            ],
+            "minorDefects": [
+                {
+                    "defectType": "T\u1ed4N TH\u01af\u01a0NG V\u1eacT L\u00dd/ PHYSICAL DAMAGE",
+                    "description": "- V\u1ebft t\u1ed5n th\u01b0\u01a1ng tr\u00ean v\u1ecf qu\u1ea3 <0.5cm2",
+                    "weight": "",
+                    "percentage": "0.0000"
+                },
+                {
+                    "defectType": "V\u1ebeT DA/KHUY\u1ebeT T\u1eacT/ SKIN MARKS/ BLEMISHES",
+                    "description": "- Qu\u1ea3 b\u1ecb da c\u00e1m...",
+                    "weight": "",
+                    "percentage": "0.0000"
+                }
+            ],
+            "shatteringBerries": [
+                {
+                    "defectType": "SHATTERING (LOOSING) BERRIES",
+                    "description": "- Qu\u1ea3 ph\u1ea3i \u0111\u1eb7c tr\u01b0ng c\u1ee7a lo\u1ea1i...",
+                    "weight": "",
+                    "percentage": "0.0000"
+                }
+            ]
+        }
+    },
+    "weightSampling": {
+        "ac2cb3b3-4aa1-417e-a560-7b9a411042c8": {
+            "bags": "",
+            "samplingPlan": "",
+            "emptyBagWeights": [
+                "",
+                "",
+                ""
+            ],
+            "emptyBagWeightAverage": "",
+            "averageWeight": "",
+            "targetWeight": "1.74",
+            "totalGrossWeight": "0.000",
+            "totalNetWeight": "0.000",
+            "samples": [
+                {
+                    "id": 1,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 2,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 3,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 4,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 5,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 6,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 7,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 8,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 9,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 10,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 11,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 12,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 13,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 14,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 15,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 16,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 17,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 18,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 19,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 20,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 21,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 22,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 23,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 24,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 25,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 26,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 27,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 28,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 29,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 30,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 31,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 32,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 33,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 34,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 35,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 36,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 37,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 38,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 39,
+                    "grossWeight": "",
+                    "netWeight": ""
+                },
+                {
+                    "id": 40,
+                    "grossWeight": "",
+                    "netWeight": ""
+                }
+            ]
+        }
+    },
+    "comments": "",
+    "qualityComments": "",
+    "inspectorName": "",
+    "reviewerName": "",
+    "inspector_signature": "base64_image:iVBORw0KGgoAAAANSUhEUgAAAZAAAACWCAYAAADwkd5lAAACLklEQVR4nO3VwQ3AIBDAsNL9dz5mIB+EZE+QX9bMzAcAh/7bAQC8yUAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIBkA/QZBShP/4RpAAAAAElFTkSuQmCC",
+    "reviewer_signature": "base64_image:iVBORw0KGgoAAAANSUhEUgAAAZAAAACWCAYAAADwkd5lAAACLklEQVR4nO3VwQ3AIBDAsNL9dz5mIB+EZE+QX9bMzAcAh/7bAQC8yUAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIDEQABIDASAxEAASAwEgMRAAEgMBIBkA/QZBShP/4RpAAAAAElFTkSuQmCC"
+}
