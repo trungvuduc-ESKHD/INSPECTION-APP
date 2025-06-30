@@ -5,7 +5,7 @@ import hashlib
 
 def render_super_admin_panel_page():
     st.title("👔 Administrator Panel")
-    st.warning("Đây là khu vực nguy hiểm ⚠️.")
+    st.warning("Đây là khu vực nguy hiểm⚠️")
 
     st.header("Quản lý toàn bộ tài khoản")
     users_data = get_users()
