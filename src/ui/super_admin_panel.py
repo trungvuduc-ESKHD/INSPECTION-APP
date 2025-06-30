@@ -4,8 +4,8 @@ from src.core.auth import get_users, save_users
 import hashlib
 
 def render_super_admin_panel_page():
-    st.title("👑 Super Admin Panel")
-    st.warning("Đây là khu vực quản lý cấp cao nhất.")
+    st.title("👔 Administrator Panel")
+    st.warning("Đây là khu vực nguy hiểm ⚠️.")
 
     st.header("Quản lý toàn bộ tài khoản")
     users_data = get_users()
