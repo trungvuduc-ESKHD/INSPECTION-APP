@@ -1,5 +1,5 @@
 {
-    "admin": {
+    "manager": {
         "password": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
         "role": "manager"
     },
@@ -7,7 +7,7 @@
         "password": "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e",
         "role": "user"
     },
-    "superadmin": {
+    "trungvuduc@eurofinsasia.com": {
         "password": "7757b9390ee428335f703599e265ab1e1bcd971e6264627ba085da61256e3d3d",
         "role": "super_admin"
     }
