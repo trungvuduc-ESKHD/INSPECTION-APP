@@ -4,6 +4,7 @@ sys.path.append(os.path.abspath('.'))
 import streamlit as st
 from src.core.auth import sign_in, sign_up
 from src.core.supabase_client import supabase
+from src.ui.auth_page import render_auth_page
 
 st.set_page_config(page_title="Login - Eurofins", layout="centered")
 
