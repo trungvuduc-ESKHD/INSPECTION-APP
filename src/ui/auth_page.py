@@ -1,5 +1,3 @@
-# src/ui/auth_page.py (MODERN DARK THEME LOGIN/SIGNUP)
-
 import streamlit as st
 import time
 from src.core.auth import sign_in, sign_up
