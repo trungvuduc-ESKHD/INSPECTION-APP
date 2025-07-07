@@ -1,10 +1,12 @@
 streamlit
+supabase
+bcrypt
 pandas
-fpdf2
 python-docx
 Pillow
 streamlit-drawable-canvas
 numpy
 streamlit-option-menu
-bcrypt
-supabase
+gspread
+gspread-dataframe
+oauth2client
