@@ -7,3 +7,4 @@ streamlit-drawable-canvas
 numpy
 streamlit-option-menu
 bcrypt
+supabase
