@@ -1,12 +1,11 @@
-# src/ui/auth_page.py (UI ONLY)
+# src/ui/auth_page.py (DARK THEME LOGIN/SIGNUP)
 
 import streamlit as st
-# Import các hàm logic từ auth.py
-from src.core.auth import sign_in, sign_up 
+from src.core.auth import check_login, register_user
 
 def render_auth_page():
     """Renders the dark-themed, modern login and sign-up page."""
-    
+
     # --- CSS TÙY CHỈNH ---
     st.markdown("""
     <style>
@@ -106,59 +105,83 @@ def render_auth_page():
     .divider:not(:empty)::after {
         margin-left: .5em;
     }
+    
     </style>
     """, unsafe_allow_html=True)
     
+    # --- BỐ CỤC GIAO DIỆN ---
+    st.markdown('<div class="auth-container">', unsafe_allow_html=True)
+    
+    # Sử dụng cột để canh giữa form
     _, center_col, _ = st.columns([1, 1.5, 1])
 
     with center_col:
-        st.markdown('<div class="auth-card">', unsafe_allow_html=True)
+        # Tùy chọn hiển thị form Đăng nhập hay Đăng ký
+        if 'auth_form_choice' not in st.session_state:
+            st.session_state.auth_form_choice = 'Sign In'
         
-        # Tiêu đề thay đổi tùy theo form
-        if st.session_state.get('auth_form_choice', 'Sign In') == 'Sign In':
-             st.markdown("<h2 class='auth-title'>Sign In to Your Account</h2>", unsafe_allow_html=True)
-        else:
-             st.markdown("<h2 class='auth-title'>Create a New Account</h2>", unsafe_allow_html=True)
+        # --- Form Đăng nhập ---
+        if st.session_state.auth_form_choice == 'Sign In':
+            with st.container():
+                st.markdown('<div class="auth-form">', unsafe_allow_html=True)
+                st.markdown("<h2>Sign In to Your Account</h2>", unsafe_allow_html=True)
+                
+                with st.form("login_form_dark"):
+                    email = st.text_input("Email address", key="login_email")
+                    password = st.text_input("Password", type="password", key="login_password")
+                    st.checkbox("Remember me", key="login_remember")
+                    submitted = st.form_submit_button("Sign In")
 
-        # Sử dụng form để tránh rerun không cần thiết
-        if st.session_state.get('auth_form_choice', 'Sign In') == 'Sign In':
-            with st.form("login_form_dark"):
-                email = st.text_input("Email address", key="login_email")
-                password = st.text_input("Password", type="password", key="login_password")
-                submitted = st.form_submit_button("Sign In")
+                    if submitted:
+                        user, username, role = check_login(email, password)
+                        if user:
+                            st.session_state.user = user
+                            st.session_state.username = username
+                            st.session_state.role = role
+                            st.rerun()
+                        else:
+                            st.error(f"Đăng nhập thất bại: {role}")
+                
+                st.markdown('<div class="sub-link"><p>Don\'t have an account? <a href="#" id="signup-link">Sign up</a></p></div>', unsafe_allow_html=True)
+                
+                # JavaScript để chuyển đổi form
+                if st.button("Switch to Sign Up", key="switch_to_signup_btn", help="Click to switch form"):
+                    st.session_state.auth_form_choice = 'Sign Up'
+                    st.rerun()
 
-                if submitted:
-                    user, username, role = sign_in(email, password)
-                    if user:
-                        st.session_state.user = user
-                        st.session_state.username = username
-                        st.session_state.role = role
-                        st.rerun()
-                    else:
-                        st.error(f"Đăng nhập thất bại: {role}")
-            
-            if st.button("Don't have an account? Sign up"):
-                st.session_state.auth_form_choice = 'Sign Up'
-                st.rerun()
+                st.markdown('</div>', unsafe_allow_html=True)
 
-        else: # Form Đăng ký
-             with st.form("signup_form_dark"):
-                email = st.text_input("Email address", key="signup_email")
-                username = st.text_input("Username", key="signup_username")
-                password = st.text_input("Password (min. 6 characters)", type="password", key="signup_password")
-                submitted = st.form_submit_button("Create Account")
+        # --- Form Đăng ký ---
+        elif st.session_state.auth_form_choice == 'Sign Up':
+            with st.container():
+                st.markdown('<div class="auth-form">', unsafe_allow_html=True)
+                st.markdown("<h2>Create a New Account</h2>", unsafe_allow_html=True)
+                
+                # Nút đăng nhập bằng Google (giả lập)
+                st.button("G Sign up with google", use_container_width=True)
+                st.markdown("<div class='divider'>or continue with</div>", unsafe_allow_html=True)
 
-                if submitted:
-                    success, message = sign_up(email, password, username)
-                    if success:
-                        st.success(message)
-                        st.session_state.auth_form_choice = 'Sign In' # Tự động chuyển về tab đăng nhập
-                        st.rerun()
-                    else:
-                        st.error(f"Đăng ký thất bại: {message}")
-            
-             if st.button("Already have an account? Sign in"):
-                st.session_state.auth_form_choice = 'Sign In'
-                st.rerun()
+                with st.form("signup_form_dark"):
+                    email = st.text_input("Email address", key="signup_email")
+                    username = st.text_input("Username", key="signup_username")
+                    password = st.text_input("Password", type="password", key="signup_password")
+                    submitted = st.form_submit_button("Sign Up")
 
-        st.markdown('</div>', unsafe_allow_html=True)
+                    if submitted:
+                        success, message = register_user(email, password, username)
+                        if success:
+                            st.success(message)
+                            st.session_state.auth_form_choice = 'Sign In' # Chuyển về tab đăng nhập
+                            st.rerun()
+                        else:
+                            st.error(f"Đăng ký thất bại: {message}")
+                
+                st.markdown('<div class="sub-link"><p>Do you have an account? <a href="#" id="signin-link">Sign in</a></p></div>', unsafe_allow_html=True)
+
+                if st.button("Switch to Sign In", key="switch_to_signin_btn", help="Click to switch form"):
+                    st.session_state.auth_form_choice = 'Sign In'
+                    st.rerun()
+
+                st.markdown('</div>', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
