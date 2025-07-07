@@ -415,7 +415,3 @@ def render_homepage():
         <p>📧 trung.vuduc@eurofinsasia.com | 📞 0377 1000 86 | 🌐 www.eurofins.com.vn
     </div>
     """, unsafe_allow_html=True)
-
-# Test the function
-if __name__ == "__main__":
-    render_homepage()
