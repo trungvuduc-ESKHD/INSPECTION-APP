@@ -12,13 +12,13 @@ def render_auth_page():
 
     /* Reset và thiết lập toàn bộ trang */
     .stApp {
-        background: linear-gradient(135deg, #0f1419 0%, #1a202c 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     /* Nền của toàn bộ trang */
     [data-testid="stAppViewContainer"] > .main {
-        background: linear-gradient(135deg, #0f1419 0%, #1a202c 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         padding: 0;
     }
 
@@ -48,8 +48,9 @@ def render_auth_page():
         right: 0;
         bottom: 0;
         background: 
-            radial-gradient(circle at 20% 20%, rgba(74, 222, 128, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(96, 165, 250, 0.1) 0%, transparent 50%);
+            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 40% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
         pointer-events: none;
     }
 
@@ -58,33 +59,33 @@ def render_auth_page():
         width: 100%;
         max-width: 420px;
         padding: 3rem 2.5rem;
-        background: rgba(31, 41, 55, 0.8);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        border: 1px solid rgba(55, 65, 81, 0.5);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
         box-shadow: 
-            0 25px 50px -12px rgba(0, 0, 0, 0.5),
-            0 0 0 1px rgba(255, 255, 255, 0.05);
+            0 25px 50px -12px rgba(0, 0, 0, 0.25),
+            0 0 0 1px rgba(255, 255, 255, 0.1);
         position: relative;
         z-index: 1;
     }
 
     /* Tiêu đề */
     .auth-form h2 {
-        color: #FFFFFF;
+        color: #1F2937;
         font-family: 'Inter', sans-serif;
         font-weight: 700;
         font-size: 28px;
         text-align: center;
         margin-bottom: 0.5rem;
-        background: linear-gradient(135deg, #FFFFFF 0%, #E5E7EB 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
 
     .auth-subtitle {
-        color: #9CA3AF;
+        color: #6B7280;
         font-size: 14px;
         text-align: center;
         margin-bottom: 2rem;
@@ -93,7 +94,7 @@ def render_auth_page():
 
     /* Styling cho các label */
     .stTextInput label {
-        color: #E5E7EB !important;
+        color: #374151 !important;
         font-weight: 500 !important;
         font-size: 14px !important;
         margin-bottom: 0.5rem !important;
@@ -101,9 +102,9 @@ def render_auth_page():
     
     /* Styling cho các input */
     .stTextInput input, .stTextInput textarea {
-        background-color: rgba(17, 24, 39, 0.8) !important;
-        color: #F9FAFB !important;
-        border: 1.5px solid rgba(55, 65, 81, 0.6) !important;
+        background-color: rgba(255, 255, 255, 0.8) !important;
+        color: #1F2937 !important;
+        border: 1.5px solid rgba(209, 213, 219, 0.8) !important;
         border-radius: 12px !important;
         padding: 0.875rem 1rem !important;
         font-size: 14px !important;
@@ -112,17 +113,18 @@ def render_auth_page():
     }
     
     .stTextInput input:focus, .stTextInput textarea:focus {
-        border-color: #4ADE80 !important;
-        box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1) !important;
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
         outline: none !important;
+        background-color: rgba(255, 255, 255, 0.95) !important;
     }
     
     /* Nút bấm chính */
     .stButton > button {
         width: 100% !important;
         border-radius: 12px !important;
-        background: linear-gradient(135deg, #4ADE80 0%, #22C55E 100%) !important;
-        color: #111827 !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
         font-weight: 600 !important;
         font-size: 16px !important;
         border: none !important;
@@ -130,20 +132,20 @@ def render_auth_page():
         margin-top: 1.5rem !important;
         transition: all 0.3s ease !important;
         cursor: pointer !important;
-        box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3) !important;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
     }
     
     .stButton > button:hover {
-        background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%) !important;
+        background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
         transform: translateY(-2px) !important;
-        box-shadow: 0 8px 25px rgba(74, 222, 128, 0.4) !important;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
     }
     
     /* Nút chuyển đổi phụ */
     .switch-btn {
         background: transparent !important;
-        border: 1.5px solid rgba(96, 165, 250, 0.6) !important;
-        color: #60A5FA !important;
+        border: 1.5px solid rgba(102, 126, 234, 0.6) !important;
+        color: #667eea !important;
         border-radius: 8px !important;
         padding: 0.5rem 1rem !important;
         font-size: 14px !important;
@@ -153,8 +155,8 @@ def render_auth_page():
     }
     
     .switch-btn:hover {
-        background: rgba(96, 165, 250, 0.1) !important;
-        border-color: #60A5FA !important;
+        background: rgba(102, 126, 234, 0.1) !important;
+        border-color: #667eea !important;
         transform: translateY(-1px) !important;
     }
     
@@ -165,18 +167,18 @@ def render_auth_page():
     }
     
     .sub-link a {
-        color: #60A5FA;
+        color: #667eea;
         text-decoration: none;
         font-weight: 500;
         transition: color 0.3s ease;
     }
     
     .sub-link a:hover {
-        color: #93C5FD;
+        color: #5a67d8;
     }
     
     .sub-link p {
-        color: #9CA3AF;
+        color: #6B7280;
         font-size: 14px;
         margin: 0;
     }
@@ -186,7 +188,7 @@ def render_auth_page():
         display: flex;
         align-items: center;
         text-align: center;
-        color: #6B7280;
+        color: #9CA3AF;
         margin: 2rem 0;
         font-size: 14px;
         font-weight: 400;
@@ -194,7 +196,7 @@ def render_auth_page():
     .divider::before, .divider::after {
         content: '';
         flex: 1;
-        border-bottom: 1px solid rgba(55, 65, 81, 0.6);
+        border-bottom: 1px solid rgba(209, 213, 219, 0.6);
     }
     .divider:not(:empty)::before {
         margin-right: 1rem;
@@ -210,11 +212,11 @@ def render_auth_page():
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(31, 41, 55, 0.9);
+        background: rgba(255, 255, 255, 0.9);
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 20px;
+        border-radius: 24px;
         z-index: 10;
     }
 
@@ -241,16 +243,16 @@ def render_auth_page():
     }
     
     ::-webkit-scrollbar-track {
-        background: rgba(31, 41, 55, 0.5);
+        background: rgba(255, 255, 255, 0.1);
     }
     
     ::-webkit-scrollbar-thumb {
-        background: rgba(55, 65, 81, 0.8);
+        background: rgba(102, 126, 234, 0.3);
         border-radius: 4px;
     }
     
     ::-webkit-scrollbar-thumb:hover {
-        background: rgba(75, 85, 99, 0.9);
+        background: rgba(102, 126, 234, 0.5);
     }
     
     </style>
