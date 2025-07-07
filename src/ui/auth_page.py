@@ -1,7 +1,7 @@
 # src/ui/auth_page.py (DARK THEME LOGIN/SIGNUP)
 
 import streamlit as st
-from src.core.auth import check_login, register_user
+from src.core.auth import sign_in, sign_up
 
 def render_auth_page():
     """Renders the dark-themed, modern login and sign-up page."""
