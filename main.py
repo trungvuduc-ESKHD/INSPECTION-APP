@@ -1,51 +1,44 @@
-# main.py
-import sys, os
-sys.path.append(os.path.abspath('.'))
 import streamlit as st
-from src.core.auth import sign_in, sign_up
-from src.core.supabase_client import supabase
+import sys, os
+
+# Thêm đường dẫn vào sys.path để import từ thư mục src
+sys.path.append(os.path.abspath('.'))
+
+# Import các hàm render giao diện
 from src.ui.auth_page import render_auth_page
+from src.ui.homepage import render_homepage
+from src.core.auth import sign_out
 
-st.set_page_config(page_title="Login - Eurofins", layout="centered")
+# Cấu hình trang - chỉ cần làm một lần ở đây
+st.set_page_config(page_title="Eurofins System", layout="wide")
 
-# --- QUẢN LÝ SESSION ---
+# --- QUẢN LÝ SESSION STATE ---
+# Đảm bảo các key cần thiết tồn tại trong session state
 if 'user' not in st.session_state:
     st.session_state.user = None
 if 'username' not in st.session_state:
     st.session_state.username = None
 if 'role' not in st.session_state:
     st.session_state.role = None
+if 'auth_form_choice' not in st.session_state:
+    st.session_state.auth_form_choice = 'Sign In'
 
-# Nếu đã đăng nhập, tự động chuyển trang
+# --- LOGIC ĐIỀU HƯỚNG CHÍNH (CONTROLLER) ---
 if st.session_state.user:
-    st.switch_page("pages/1_🏠_Homepage.py")
-
-# --- GIAO DIỆN ---
-st.title("Hệ thống Giám định Eurofins")
-login_tab, signup_tab = st.tabs(["🔐 Đăng nhập", "✍️ Đăng ký"])
-
-with login_tab:
-    with st.form("login_form"):
-        email = st.text_input("Email")
-        password = st.text_input("Mật khẩu", type="password")
-        if st.form_submit_button("Đăng nhập"):
-            user, username, role = sign_in(email, password)
-            if user:
-                st.session_state.user = user
-                st.session_state.username = username
-                st.session_state.role = role
-                st.switch_page("pages/1_🏠_Homepage.py")
-            else:
-                st.error(f"Đăng nhập thất bại: {role}") # role sẽ chứa thông báo lỗi
-
-with signup_tab:
-    with st.form("signup_form"):
-        email = st.text_input("Email")
-        username = st.text_input("Tên hiển thị (Username)")
-        password = st.text_input("Mật khẩu (ít nhất 6 ký tự)", type="password")
-        if st.form_submit_button("Đăng ký"):
-            success, message = sign_up(email, password, username)
-            if success:
-                st.success(message)
-            else:
-                st.error(f"Đăng ký thất bại: {message}")
+    # Nếu đã đăng nhập, hiển thị sidebar và trang chủ
+    with st.sidebar:
+        st.success(f"Xin chào, {st.session_state.username}!")
+        st.write(f"Vai trò: `{st.session_state.role}`")
+        if st.button("Đăng xuất", use_container_width=True):
+            sign_out()
+            # Xóa các thông tin người dùng khỏi session và chạy lại
+            del st.session_state.user
+            del st.session_state.username
+            del st.session_state.role
+            st.rerun()
+    
+    # Gọi hàm render trang chủ
+    render_homepage()
+else:
+    # Nếu chưa đăng nhập, hiển thị trang đăng nhập/đăng ký
+    render_auth_page()
