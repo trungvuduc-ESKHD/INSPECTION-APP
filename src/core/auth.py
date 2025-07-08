@@ -1,4 +1,4 @@
-from .supabase_client import get_users, save_users
+from .supabase_client import supabase, get_users, save_users
 import streamlit as st
 import logging
 
