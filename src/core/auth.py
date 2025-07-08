@@ -1,4 +1,4 @@
-# src/core/auth.py (UPDATED WITH PROFILE CREATION FALLBACK)
+from src.supabase_client import get_users
 from .supabase_client import supabase
 import streamlit as st
 import logging
