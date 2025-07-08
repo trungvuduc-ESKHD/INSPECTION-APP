@@ -6,6 +6,7 @@ from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 import zipfile
 import datetime
+from src.core.supabase_client import upload_file, supabase
 
 # ===================================================================
 # HÀM TẠO BÁO CÁO WORD CHO MỘT SẢN PHẨM DUY NHẤT
@@ -159,10 +160,11 @@ def render_camera_tab():
                     del st.session_state.camera_images[selected_product_name][selected_category][i]
                     st.rerun()
 
-    # --- TẠO VÀ TẢI BÁO CÁO ---
+    # --- TẠO, UPLOAD VÀ TẢI BÁO CÁO (LOGIC MỚI) ---
+    # ==========================================================
     st.markdown("---")
     st.header("Tạo và Tải báo cáo")
-    st.info("Báo cáo sẽ được tạo riêng cho từng sản phẩm có ảnh. Bạn có thể tải từng file hoặc tải tất cả trong một file nén (.zip).")
+    st.info("Báo cáo sẽ được tạo và tự động lưu trữ online trên hệ thống.")
 
     # Lấy danh sách sản phẩm có ảnh
     products_with_images = []
@@ -174,32 +176,52 @@ def render_camera_tab():
     if not products_with_images:
         st.warning("Chưa có ảnh nào được chụp.")
     else:
-        # Tạo các nút download riêng lẻ
         for product in products_with_images:
             product_name = product['name']
-            report_stream = create_single_product_photo_report(product, st.session_state.camera_images[product_name])
-            st.download_button(
-                label=f"Tải Báo cáo cho '{product_name}'",
-                data=report_stream,
-                file_name=f"Photo_Report_{product_name.replace(' ', '_')}.docx",
-                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            )
+            
+            # --- Tạo layout cho mỗi sản phẩm ---
+            with st.container(border=True):
+                st.subheader(f"Báo cáo cho: '{product_name}'")
+                col1, col2 = st.columns([3, 1])
 
-        # Tạo nút tải file ZIP
-        if len(products_with_images) > 1:
-            if st.button("Tải tất cả dưới dạng file ZIP"):
-                with st.spinner("Đang nén các báo cáo..."):
-                    zip_buffer = BytesIO()
-                    with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED, False) as zip_file:
-                        for product in products_with_images:
-                            product_name = product['name']
+                with col1:
+                    st.write("Nhấn nút để tạo, lưu trữ online và tải về file báo cáo ảnh.")
+                
+                with col2:
+                    if st.button(f"Tạo & Lưu Báo cáo '{product_name}'", key=f"generate_{product_name}", use_container_width=True, type="primary"):
+                        with st.spinner(f"Đang xử lý cho '{product_name}'..."):
+                            
+                            # 1. Tạo file .docx trong bộ nhớ
                             report_stream = create_single_product_photo_report(product, st.session_state.camera_images[product_name])
-                            file_name = f"Photo_Report_{product_name.replace(' ', '_')}.docx"
-                            zip_file.writestr(file_name, report_stream.getvalue())
-                    
-                    st.download_button(
-                        label="Tải xuống file ZIP",
-                        data=zip_buffer.getvalue(),
-                        file_name="All_Photo_Reports.zip",
-                        mime="application/zip"
-                    )
+                            report_bytes = report_stream.getvalue()
+                            
+                            # 2. Chuẩn bị đường dẫn và tên file trên Supabase Storage
+                            report_id = st.session_state.inspection_data['generalInfo']['report_id']
+                            file_name_on_storage = f"{report_id}/{product_name.replace(' ', '_')}_Photo_Report.docx"
+                            
+                            # 3. Upload file lên Supabase
+                            public_url = upload_file(
+                                bucket_name="report_images", # Tên bucket của bạn
+                                file_path=file_name_on_storage,
+                                file_body=report_bytes,
+                                file_options={"content-type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}
+                            )
+                            
+                            if public_url:
+                                st.success(f"Đã lưu báo cáo lên hệ thống thành công!")
+                                
+                                # 4. (Tùy chọn) Cập nhật URL vào CSDL PostgreSQL
+                                try:
+                                    supabase.table('reports').update({'photo_report_url': public_url}).eq('id', report_id).execute()
+                                except Exception as e:
+                                    st.warning(f"Lưu báo cáo thành công nhưng không thể cập nhật link vào CSDL: {e}")
+
+                                # 5. Cung cấp nút tải xuống cho người dùng
+                                st.download_button(
+                                    label=f"Tải lại file '{product_name}'",
+                                    data=report_bytes,
+                                    file_name=f"Photo_Report_{product_name.replace(' ', '_')}.docx",
+                                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                )
+                            else:
+                                st.error("Có lỗi xảy ra khi tải báo cáo lên hệ thống.")
