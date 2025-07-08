@@ -446,8 +446,7 @@ def render_auth_page():
     # --- SIGN IN FORM ---
     if st.session_state.auth_form_choice == 'Sign In':
         with st.form("login_form_dark"):
-            st.markdown('<div class="auth-form">', unsafe_allow_html=True)
-            st.markdown("<h2>Welcome Back</h2>", unsafe_allow_html=True)
+            st.markdown("<h2>Xin Chào </h2>", unsafe_allow_html=True)
             st.markdown('<p class="auth-subtitle">Sign in to your account to continue</p>', unsafe_allow_html=True)
             
             email = st.text_input("Email address", key="login_email", placeholder="Enter your email")
