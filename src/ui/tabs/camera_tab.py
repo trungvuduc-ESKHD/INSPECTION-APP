@@ -201,7 +201,7 @@ def render_camera_tab():
                             
                             # 3. Upload file lên Supabase
                             public_url = upload_file(
-                                bucket_name="report_images", # Tên bucket của bạn
+                                bucket_name="reportimages", # Tên bucket của bạn
                                 file_path=file_name_on_storage,
                                 file_body=report_bytes,
                                 file_options={"content-type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}
