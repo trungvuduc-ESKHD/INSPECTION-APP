@@ -9,3 +9,7 @@ def init_supabase_connection():
     return create_client(url, key)
 
 supabase: Client = init_supabase_connection()
+
+def get_users():
+    response = supabase.table("users").select("*").execute()
+    return response.data
