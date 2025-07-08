@@ -18,30 +18,27 @@ def save_users(users):
         supabase.table("users").insert(user).execute()
 
 def upload_file(bucket_name: str, file_path: str, file_body: bytes, file_options: dict = None):
-    """Tải một file lên Supabase Storage."""
+    """Tải một file lên Supabase Storage, xử lý trường hợp file đã tồn tại."""
     if file_options is None:
-        file_options = {"content-type": "application/octet-stream"}
+        file_options = {"content-type": "application/octet-stream", "upsert": "true"}
+    else:
+        # Đảm bảo upsert là true để có thể ghi đè
+        file_options["upsert"] = "true" 
     try:
-        # Tải file lên
+        # Sử dụng tham số upsert=True trong chính lệnh upload
+        # để Supabase tự động xử lý việc tạo mới hoặc cập nhật.
+        # Điều này đơn giản và hiệu quả hơn việc bắt lỗi "Duplicate".
         supabase.storage.from_(bucket_name).upload(
             path=file_path,
             file=file_body,
             file_options=file_options
         )
-        # Lấy URL công khai của file vừa tải lên
+        # Lấy URL công khai của file vừa tải lên/cập nhật
         public_url = supabase.storage.from_(bucket_name).get_public_url(file_path)
         return public_url
+    except GotrueError as e:
+        st.error(f"Lỗi xác thực khi tải file: {e}")
+        return None
     except Exception as e:
-        # Xử lý trường hợp file đã tồn tại
-        if "Duplicate" in str(e):
-            # Cập nhật file đã có
-            supabase.storage.from_(bucket_name).update(
-                path=file_path,
-                file=file_body,
-                file_options=file_options
-            )
-            public_url = supabase.storage.from_(bucket_name).get_public_url(file_path)
-            return public_url
-        else:
-            st.error(f"Lỗi khi tải file lên Supabase: {e}")
-            return None
+        st.error(f"Lỗi không xác định khi tải file lên Supabase: {e}")
+        return None
