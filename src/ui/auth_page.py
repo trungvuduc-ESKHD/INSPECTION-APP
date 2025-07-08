@@ -3,7 +3,7 @@ import time
 from src.core.auth import sign_in, sign_up
 
 def render_auth_page():
-“”“Renders the modern centered login and sign-up page with optimized layout.”””
+"""Renders the modern centered login and sign-up page with optimized layout."""
 
 ```
 # Initialize session state
