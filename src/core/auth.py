@@ -1,6 +1,6 @@
-# src/core/auth.py (LOGIC ONLY)
+# src/core/auth.py (UPDATED WITH PROFILE CREATION FALLBACK)
 from .supabase_client import supabase
-import streamlit as st  # Chỉ dùng để debug hoặc báo lỗi
+import streamlit as st
 import logging
 
 # Set up logging
@@ -46,6 +46,18 @@ def sign_up(email, password, username):
         })
         
         if res.user:
+            # Try to create profile manually if trigger didn't work
+            try:
+                profile_data = {
+                    "id": res.user.id,
+                    "username": username,
+                    "role": "user"
+                }
+                supabase.table("profiles").insert(profile_data).execute()
+                logger.info(f"Profile created manually for user: {email}")
+            except Exception as profile_error:
+                logger.warning(f"Profile creation failed (might already exist): {profile_error}")
+            
             logger.info(f"User registered successfully: {email}")
             return True, "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận."
         else:
@@ -92,16 +104,36 @@ def sign_in(email, password):
         
         if res.user:
             # Get user profile
-            profile_res = supabase.table("profiles").select("role, username").eq("id", res.user.id).single().execute()
-            
-            if profile_res.data:
-                role = profile_res.data.get("role", "user")
-                username = profile_res.data.get("username", "N/A")
-                logger.info(f"User signed in successfully: {email}")
-                return res.user, username, role
-            else:
-                logger.warning(f"No profile found for user: {email}")
-                return None, None, "Không tìm thấy hồ sơ người dùng tương ứng."
+            try:
+                profile_res = supabase.table("profiles").select("role, username").eq("id", res.user.id).single().execute()
+                
+                if profile_res.data:
+                    role = profile_res.data.get("role", "user")
+                    username = profile_res.data.get("username", "N/A")
+                    logger.info(f"User signed in successfully: {email}")
+                    return res.user, username, role
+                else:
+                    # Profile doesn't exist, create it
+                    logger.warning(f"No profile found for user: {email}, creating one...")
+                    username = res.user.user_metadata.get("username", f"user_{res.user.id[:8]}")
+                    
+                    profile_data = {
+                        "id": res.user.id,
+                        "username": username,
+                        "role": "user"
+                    }
+                    
+                    create_result = supabase.table("profiles").insert(profile_data).execute()
+                    
+                    if create_result.data:
+                        logger.info(f"Profile created for existing user: {email}")
+                        return res.user, username, "user"
+                    else:
+                        return None, None, "Không thể tạo hồ sơ người dùng."
+                        
+            except Exception as profile_error:
+                logger.error(f"Profile error: {profile_error}")
+                return None, None, f"Lỗi khi truy cập hồ sơ người dùng: {profile_error}"
         else:
             return None, None, "Đăng nhập thất bại."
             
