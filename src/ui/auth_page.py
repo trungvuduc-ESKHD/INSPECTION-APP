@@ -6,7 +6,7 @@ import time
 sys.path.append(os.path.abspath('.'))
 
 # Import các hàm cần thiết
-from src.core.auth import sign_in, sign_up, sign_out
+from src.core.auth import sign_in, sign_up, sign_out, reset_password
 
 # Cấu hình trang - chỉ cần làm một lần ở đây
 st.set_page_config(page_title="Eurofins System", layout="wide")
@@ -538,8 +538,11 @@ def render_auth_page():
             submitted = st.form_submit_button("Send Reset Instructions")
             if submitted:
                 if email:
-                    # In a real app, you would send a password reset email here
-                    st.session_state.auth_message = ('success', "📩 Password reset instructions sent to your email")
+                    success, message = reset_password(email)
+                    if success:
+                        st.session_state.auth_message = ('success', f"📩 {message}")
+                    else:
+                        st.session_state.auth_message = ('error', f"❌ {message}")
                     st.session_state.auth_form_choice = 'Sign In'
                     st.rerun()
                 else:
