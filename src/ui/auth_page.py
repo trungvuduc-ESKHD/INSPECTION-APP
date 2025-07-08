@@ -25,35 +25,66 @@ def render_auth_page():
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+    html, body, [data-testid="stAppViewContainer"] {{
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+    }}
+
     .stApp {{
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100vh !important;
+    }}
+
+    [data-testid="stAppViewContainer"] {{
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100vh !important;
     }}
 
     [data-testid="stAppViewContainer"] > .main {{
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 0;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        padding: 0 !important;
+        margin: 0 !important;
+        height: 100vh !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }}
 
     [data-testid="stHeader"], 
     [data-testid="stToolbar"],
     footer,
-    .stDeployButton {{
+    .stDeployButton,
+    [data-testid="stDecoration"] {{
         display: none !important;
     }}
 
     /* Hide default streamlit spacing */
     .block-container {{
         padding: 0 !important;
+        margin: 0 !important;
         max-width: none !important;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        height: 100vh !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }}
+
+    /* Remove any top spacing */
+    .element-container {{
+        margin: 0 !important;
+        padding: 0 !important;
+    }}
+
+    /* Remove gap between elements */
+    .stVerticalBlock {{
+        gap: 0 !important;
     }}
 
     .auth-container {{
