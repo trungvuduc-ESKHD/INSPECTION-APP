@@ -11,11 +11,11 @@ def init_supabase_connection():
 supabase: Client = init_supabase_connection()
 
 def get_users():
-    response = supabase.table("users").select("*").execute()
+    response = supabase.table("profiles").select("*").execute()
     return response.data
 def save_users(users):
     for user in users:
-        supabase.table("users").insert(user).execute()
+        supabase.table("profiles").insert(user).execute()
 
 def upload_file(bucket_name: str, file_path: str, file_body: bytes, file_options: dict = None):
     """Tải một file lên Supabase Storage, xử lý trường hợp file đã tồn tại."""
