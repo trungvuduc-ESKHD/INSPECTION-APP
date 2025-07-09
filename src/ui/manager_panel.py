@@ -494,7 +494,7 @@ def render_manager_panel_page():
             </div>
             """, unsafe_allow_html=True)
             
-            admin_list = [u for u, d in users_data.items() if d.get('role') == 'admin']
+            admin_list = [user["username"] for user in users_data if user.get("role") == "admin"]
             
             if not admin_list:
                 st.markdown("""
