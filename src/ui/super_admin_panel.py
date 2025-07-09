@@ -622,7 +622,8 @@ def render_super_admin_panel_page():
             st.markdown('</div>', unsafe_allow_html=True)
     
             if user_to_delete:
-                user_role = users_data[user_to_delete].get('role', 'user')
+                user = next((u for u in users_data if u.get('username') == user_to_delete), None)
+                user_role = user.get('role', 'user') if user else 'user'
                 st.markdown(f"""
                 <div style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 1.5rem; border-radius: 12px; margin: 1rem 0;">
                     <strong>🗑️ Xác nhận xóa:</strong><br>
