@@ -31,12 +31,16 @@ def render_main_app():
             options.append("Super Admin Panel")
             icons.append("gem")
 
-        # Khởi tạo selected_page nếu chưa có
+        # Nếu chưa có biến lưu lựa chọn, khởi tạo là None (không chọn mục nào)
         if "selected_page" not in st.session_state:
             st.session_state.selected_page = None
 
-        # Nếu đã có selected_page thì dùng, nếu chưa thì không set default_index (mặc định là 0)
-        default_idx = options.index(st.session_state.selected_page) if st.session_state.selected_page in options else 0
+        # Xác định default_index cho option_menu
+        if st.session_state.selected_page in options:
+            default_idx = options.index(st.session_state.selected_page)
+        else:
+            # Nếu không hợp lệ, đặt default_index là None để không chọn mục nào
+            default_idx = None
 
         selected_page = option_menu(
             menu_title="Điều hướng",
@@ -57,24 +61,24 @@ def render_main_app():
                     del st.session_state[key]
             st.rerun()
 
-    # --- HIỂN THỊ TRANG THEO selected_page ---
+    # --- HIỂN THỊ GIAO DIỆN THEO selected_page ---
     if st.session_state.selected_page == "Trang chủ":
         render_homepage()
-
     elif st.session_state.selected_page == "Danh sách Báo cáo":
         render_inspection_page()
-
     elif st.session_state.selected_page == "Quản lý (Manager)":
         if st.session_state.role in ['manager', 'super_admin']:
             render_manager_panel_page()
         else:
             st.error("Bạn không có quyền truy cập trang này!")
-
     elif st.session_state.selected_page == "Super Admin Panel":
         if st.session_state.role == 'super_admin':
             render_super_admin_panel_page()
         else:
             st.error("Bạn không có quyền truy cập trang này!")
+    else:
+        # Khi không có mục nào được chọn, hoặc mới đăng nhập
+        st.info("Vui lòng chọn mục trong menu để bắt đầu.")
 
 # --- BỘ ĐIỀU PHỐI CHÍNH ---
 def main():
