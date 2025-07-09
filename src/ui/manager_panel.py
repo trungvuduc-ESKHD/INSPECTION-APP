@@ -336,106 +336,9 @@ def render_manager_panel_page():
     # Content Grid
     st.markdown('<div class="content-grid">', unsafe_allow_html=True)
 
-    # === QUẢN LÝ NGƯỜI DÙNG ===
-    st.markdown("""
-    <div class="section-card">
-        <div class="section-header">
-            <div class="section-icon">👥</div>
-            <h2 class="section-title">Quản lý Người dùng</h2>
-        </div>
-    """, unsafe_allow_html=True)
-    
+# Lấy dữ liệu người dùng và báo cáo
     users_data = get_users()
-    manageable_users = {user['username']: user for user in users_data if user.get('role') in ['user', 'admin']}
-
-    if not manageable_users:
-        st.markdown("""
-        <div class="empty-state">
-            <div class="empty-state-icon">👤</div>
-            <p class="empty-state-text">Không có người dùng nào để quản lý</p>
-        </div>
-        """, unsafe_allow_html=True)
-    else:
-        # User Statistics
-        user_count = len([u for u, d in manageable_users.items() if d.get('role') == 'user'])
-        admin_count = len([u for u, d in manageable_users.items() if d.get('role') == 'admin'])
-        
-        st.markdown(f"""
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-number">{user_count}</div>
-                <div class="stat-label">👤 Người dùng</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">{admin_count}</div>
-                <div class="stat-label">⚡ Quản trị viên</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">{len(manageable_users)}</div>
-                <div class="stat-label">📊 Tổng cộng</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Users Table
-        df_users = pd.DataFrame([{"Username": u, "Role": d.get('role')} for u, d in manageable_users.items()])
-        st.markdown('<div class="data-table">', unsafe_allow_html=True)
-        st.dataframe(df_users, use_container_width=True, hide_index=True)
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Role Management
-        with st.expander("⚙️ Thay đổi vai trò người dùng"):
-            st.markdown("""
-            <div class="action-header">
-                <span class="icon">🔄</span>
-                <span>Cập nhật quyền truy cập</span>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                selected_user_for_role_change = st.selectbox(
-                    "👤 Chọn người dùng", 
-                    options=list(manageable_users.keys()),
-                    key="role_change_user_select"
-                )
-            
-            with col2:
-                current_role = manageable_users[selected_user_for_role_change]['role']
-                role_options = ["user", "admin"]
-                default_index = role_options.index(current_role) if current_role in role_options else 0
-                
-                new_role = st.selectbox(
-                    "🎯 Vai trò mới", 
-                    options=role_options,
-                    index=default_index,
-                    key="role_change_new_role_select"
-                )
-            
-            if current_role != new_role:
-                st.markdown(f"""
-                <div class="warning-alert">
-                    <span class="alert-icon">⚠️</span>
-                    <span>Thay đổi vai trò từ <strong>{current_role}</strong> thành <strong>{new_role}</strong></span>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            if st.button("🔄 Cập nhật vai trò", key="update_role_button", use_container_width=True):
-                for user in users_data:
-                    if user.get('username') == selected_user_for_role_change:
-                        user['role'] = new_role
-                        break
-                save_users(users_data)
-                st.markdown(f"""
-                <div class="success-alert">
-                    <span class="alert-icon">✅</span>
-                    <span>Đã cập nhật vai trò cho <strong>{selected_user_for_role_change}</strong> thành <strong>{new_role}</strong></span>
-                </div>
-                """, unsafe_allow_html=True)
-                st.rerun()
-
-    st.markdown("</div>", unsafe_allow_html=True)
+    all_reports = get_all_reports_metadata()
 
     # === QUẢN LÝ BÁO CÁO ===
     st.markdown("""
@@ -446,8 +349,6 @@ def render_manager_panel_page():
         </div>
     """, unsafe_allow_html=True)
     
-    all_reports = get_all_reports_metadata()
-    
     if not all_reports:
         st.markdown("""
         <div class="empty-state">
@@ -456,7 +357,7 @@ def render_manager_panel_page():
         </div>
         """, unsafe_allow_html=True)
     else:
-        # Report Statistics
+        # Thống kê báo cáo
         total_reports = len(all_reports)
         pending_reports = len([r for r in all_reports if r.get('status') == 'pending_review'])
         completed_reports = len([r for r in all_reports if r.get('status') == 'completed'])
@@ -479,7 +380,7 @@ def render_manager_panel_page():
         </div>
         """, unsafe_allow_html=True)
         
-        # Reports Table
+        # Bảng báo cáo
         df_reports = pd.DataFrame(all_reports)
         columns_to_show = ['report_name', 'status', 'created_by', 'assigned_to']
         available_columns = [col for col in columns_to_show if col in df_reports.columns]
@@ -488,7 +389,7 @@ def render_manager_panel_page():
         st.dataframe(df_reports[available_columns], use_container_width=True, hide_index=True)
         st.markdown('</div>', unsafe_allow_html=True)
         
-        # Report Assignment
+        # Phân công báo cáo cho admin
         with st.expander("🎯 Chỉ định báo cáo cho Admin"):
             st.markdown("""
             <div class="action-header">
@@ -534,47 +435,5 @@ def render_manager_panel_page():
                     """, unsafe_allow_html=True)
                     st.rerun()
 
-        # Report Deletion
-        with st.expander("🗑️ Xóa báo cáo"):
-            st.markdown("""
-            <div class="danger-alert">
-                <h4 style="margin: 0 0 0.5rem 0; display: flex; align-items: center;">
-                    <span style="margin-right: 0.5rem;">⚠️</span>
-                    Vùng Nguy Hiểm
-                </h4>
-                <p style="margin: 0; opacity: 0.9;">
-                    Hành động này không thể hoàn tác. Vui lòng cân nhắc kỹ trước khi thực hiện.
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            report_to_delete_name = st.selectbox(
-                "🗑️ Chọn báo cáo để xóa", 
-                options=[r['report_name'] for r in all_reports],
-                key="delete_report_select"
-            )
-            
-            st.markdown(f"""
-            <div class="warning-alert">
-                <span class="alert-icon">⚠️</span>
-                <span>Bạn có chắc chắn muốn xóa vĩnh viễn báo cáo '<strong>{report_to_delete_name}</strong>' không?</span>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            if st.button("💥 XÁC NHẬN XÓA", key="confirm_delete_button", use_container_width=True):
-                report_id = next((r['report_id'] for r in all_reports if r['report_name'] == report_to_delete_name), None)
-                if report_id:
-                    success, message = delete_report(report_id)
-                    if success: 
-                        st.markdown(f"""
-                        <div class="success-alert">
-                            <span class="alert-icon">✅</span>
-                            <span>{message}</span>
-                        </div>
-                        """, unsafe_allow_html=True)
-                        st.rerun()
-                    else: 
-                        st.error(message)
-
     st.markdown("</div>", unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)  # Close content-grid
+    st.markdown("</div>", unsafe_allow_html=True) 
