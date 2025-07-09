@@ -8,7 +8,7 @@ from src.ui.tabs.camera_tab import render_camera_tab
 def render_tabs():
     """Render the main application tabs"""
     # Main tabs
-    tab_list = ["Thông tin/General", "Chất lượng/Quality", "Khối lượng/Weight", "Lỗi/Defects", "Camera"]
+    tab_list = ["General", "Quality", "Weight", "Defects", "Camera"]
     tabs = st.tabs(tab_list)
 
     # Render the content for each tab
