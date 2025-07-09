@@ -477,7 +477,7 @@ def render_super_admin_panel_page():
     else:
         # User statistics
         role_counts = {}
-        for user_data in users_data.values():
+        for user_data in users_data:
             role = user_data.get('role', 'user')
             role_counts[role] = role_counts.get(role, 0) + 1
         
