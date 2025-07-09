@@ -346,7 +346,7 @@ def render_manager_panel_page():
     """, unsafe_allow_html=True)
     
     users_data = get_users()
-    manageable_users = {u: d for u, d in users_data.items() if d.get('role') in ['user', 'admin']}
+    manageable_users = {user['username']: user for user in users_data if user.get('role') in ['user', 'admin']}
 
     if not manageable_users:
         st.markdown("""
