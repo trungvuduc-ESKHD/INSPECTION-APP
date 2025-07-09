@@ -11,11 +11,19 @@ def init_supabase_connection():
 supabase: Client = init_supabase_connection()
 
 def get_users():
-    response = supabase.table("profiles").select("*").execute()
-    return response.data
+    try:
+        response = supabase.table("profiles").select("*").execute()
+        return response.data
+    except Exception as e:
+        st.error(f"Lỗi khi truy xuất danh sách người dùng: {e}")
+        return []
+
 def save_users(users):
     for user in users:
-        supabase.table("profiles").insert(user).execute()
+        try:
+            supabase.table("profiles").insert(user).execute()
+        except Exception as e:
+            st.warning(f"Lỗi khi lưu người dùng {user.get('username')}: {e}")
 
 def upload_file(bucket_name: str, file_path: str, file_body: bytes, file_options: dict = None):
     """Tải một file lên Supabase Storage, xử lý trường hợp file đã tồn tại."""
