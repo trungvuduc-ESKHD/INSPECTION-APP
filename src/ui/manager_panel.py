@@ -422,7 +422,10 @@ def render_manager_panel_page():
                 """, unsafe_allow_html=True)
             
             if st.button("🔄 Cập nhật vai trò", key="update_role_button", use_container_width=True):
-                users_data[selected_user_for_role_change]['role'] = new_role
+                for user in users_data:
+                    if user.get('username') == selected_user_for_role_change:
+                        user['role'] = new_role
+                        break
                 save_users(users_data)
                 st.markdown(f"""
                 <div class="success-alert">
