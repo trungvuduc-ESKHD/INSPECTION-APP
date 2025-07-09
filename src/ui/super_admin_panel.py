@@ -546,7 +546,9 @@ def render_super_admin_panel_page():
         st.markdown('</div>', unsafe_allow_html=True)
         
         if selected_user:
-            current_role = users_data[selected_user].get('role', 'user')
+            current_user_data = next((u for u in users_data if u['username'] == selected_user), None)
+            if current_user_data:
+                current_role = current_user_data.get('role', 'user')
             st.markdown('<div class="form-group">', unsafe_allow_html=True)
             st.markdown('<label class="form-label">🎯 Vai trò hiện tại</label>', unsafe_allow_html=True)
             st.markdown(f'<div class="role-badge role-{current_role.replace("_", "-")}">{current_role}</div>', unsafe_allow_html=True)
