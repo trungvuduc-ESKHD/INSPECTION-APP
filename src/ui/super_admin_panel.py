@@ -573,7 +573,10 @@ def render_super_admin_panel_page():
                 """, unsafe_allow_html=True)
             
             if st.button("🔄 Cập nhật vai trò", key="update_role_btn", use_container_width=True):
-                users_data[selected_user]['role'] = new_role
+                for user in users_data:
+                    if user.get('username') == selected_user:
+                        user['role'] = new_role
+                        break
                 save_users(users_data)
                 st.markdown(f"""
                 <div class="success-message">
