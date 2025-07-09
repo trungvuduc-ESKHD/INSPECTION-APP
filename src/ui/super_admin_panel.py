@@ -602,7 +602,7 @@ def render_super_admin_panel_page():
         """, unsafe_allow_html=True)
         
         # Get users that can be deleted (exclude current user)
-        options_to_delete = [u for u in users_data.keys() if u != st.session_state.get('username')]
+        options_to_delete = [u['username'] for u in users_data if u['username'] != st.session_state.get('username')]
 
         if not options_to_delete:
             st.markdown("""
