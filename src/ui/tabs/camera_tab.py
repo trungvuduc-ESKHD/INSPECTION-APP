@@ -135,8 +135,9 @@ def render_camera_tab():
 
     if uploaded_files:
         for uploaded_file in uploaded_files:
-            img_bytes = uploaded_file.read()
+            img_bytes = uploaded_file.getvalue()  # ⚠️ dùng getvalue() thay vì read()
             st.session_state.camera_images[selected_product_name][selected_category].append(img_bytes)
+
         st.success(f"✅ Đã thêm {len(uploaded_files)} ảnh cho mục '{categories[selected_category]}'")
 
     # Hiển thị các ảnh đã thêm
