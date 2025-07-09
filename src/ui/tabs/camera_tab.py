@@ -95,7 +95,7 @@ def handle_new_photo():
 # HÀM RENDER CHÍNH CỦA TAB
 # ===================================================================
 def render_camera_tab():
-    st.header("📸 Chụp ảnh báo cáo (bằng camera điện thoại)")
+    st.header("📸 Chụp ảnh báo cáo")
 
     # Khởi tạo các biến trong session state nếu chưa có
     if 'camera_images' not in st.session_state:
@@ -133,12 +133,19 @@ def render_camera_tab():
         key="file_uploader"
     )
 
-    if uploaded_files:
-        for uploaded_file in uploaded_files:
-            img_bytes = uploaded_file.getvalue()  # ⚠️ dùng getvalue() thay vì read()
-            st.session_state.camera_images[selected_product_name][selected_category].append(img_bytes)
+    if uploaded_files and len(uploaded_files) > 0:
+        if 'already_uploaded_files' not in st.session_state:
+            st.session_state.already_uploaded_files = set()
+        
+        new_files = [f for f in uploaded_files if f.name not in st.session_state.already_uploaded_files]
 
-        st.success(f"✅ Đã thêm {len(uploaded_files)} ảnh cho mục '{categories[selected_category]}'")
+        for uploaded_file in new_files:
+            img_bytes = uploaded_file.getvalue()
+            st.session_state.camera_images[selected_product_name][selected_category].append(img_bytes)
+            st.session_state.already_uploaded_files.add(uploaded_file.name)
+
+        if new_files:
+            st.success(f"✅ Đã thêm {len(new_files)} ảnh cho mục '{categories[selected_category]}'")
 
     # Hiển thị các ảnh đã thêm
     st.markdown("---")
