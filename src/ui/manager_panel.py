@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from src.core.auth import get_users, save_users
+from .supabase_client import supabase, get_users, save_users
 from src.core.data_manager import get_all_reports_metadata, assign_report, delete_report
 
 def render_manager_panel_page():
