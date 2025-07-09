@@ -95,19 +95,21 @@ def handle_new_photo():
 # HÀM RENDER CHÍNH CỦA TAB
 # ===================================================================
 def render_camera_tab():
-    st.header("Chụp ảnh báo cáo / Photo Report Capturing")
+    st.header("📸 Chụp ảnh báo cáo / Photo Report Capturing")
 
-    # --- KHỞI TẠO CÁC BIẾN CẦN THIẾT ---
+    # Khởi tạo session state nếu cần
     if 'camera_images' not in st.session_state:
         st.session_state.camera_images = {}
     if 'camera_key_counter' not in st.session_state:
         st.session_state.camera_key_counter = 0
+    if 'camera_stage' not in st.session_state:
+        st.session_state.camera_stage = "capture"  # capture | preview
 
     if not st.session_state.get('inspection_data') or not st.session_state.inspection_data.get('products'):
-        st.warning("Vui lòng thêm sản phẩm ở tab 'Thông tin/General' trước.")
+        st.warning("⚠️ Vui lòng thêm sản phẩm ở tab 'Thông tin/General' trước.")
         return
 
-    # --- GIAO DIỆN CHỌN SẢN PHẨM VÀ DANH MỤC ---
+    # Giao diện chọn sản phẩm và danh mục ảnh
     product_names = [p['name'] for p in st.session_state.inspection_data['products']]
     selected_product_name = st.selectbox("1. Chọn sản phẩm", product_names, key="camera_product_selector")
 
@@ -120,45 +122,56 @@ def render_camera_tab():
     }
     selected_category = st.selectbox("2. Chọn danh mục ảnh", options=list(categories.keys()), format_func=lambda k: categories[k])
 
-    # Lưu lựa chọn hiện tại vào session để hàm callback có thể truy cập
     st.session_state.camera_current_product = selected_product_name
     st.session_state.camera_current_category = selected_category
 
-    # Khởi tạo cấu trúc lưu trữ cho sản phẩm nếu chưa có
+    # Khởi tạo dict lưu ảnh nếu chưa có
     if selected_product_name not in st.session_state.camera_images:
         st.session_state.camera_images[selected_product_name] = {cat: [] for cat in categories}
 
     st.markdown("---")
-    
-    # --- GIAO DIỆN CHỤP ẢNH LIỀN MẠCH ---
-    st.subheader(f"3. Chụp ảnh cho '{categories[selected_category]}'")
+    st.subheader(f"📷 3. Chụp ảnh cho '{categories[selected_category]}'")
 
-    # Tạo key động cho camera_input
+    # Tạo key cho camera
     camera_key = f"camera_widget_{st.session_state.camera_key_counter}"
-    st.session_state.camera_widget_key = camera_key
 
-    st.camera_input(
-        "Nhấn để chụp ảnh",
-        key=camera_key,
-        on_change=handle_new_photo # GỌI HÀM CALLBACK KHI CÓ THAY ĐỔI
-    )
+    # Chỉ hiện camera nếu ở trạng thái chụp
+    if st.session_state.camera_stage == "capture":
+        img_buffer = st.camera_input("Nhấn để chụp ảnh", key=camera_key)
 
-    # --- HIỂN THỊ CÁC ẢNH ĐÃ CHỤP ---
+        if img_buffer:
+            # Lưu ảnh vào session
+            st.session_state.camera_images[selected_product_name][selected_category].append(img_buffer.getvalue())
+            st.session_state.last_captured_image = img_buffer
+            st.session_state.camera_stage = "preview"
+            st.rerun()
+
+    # Sau khi chụp xong, hiển thị ảnh + nút "Chụp tiếp"
+    elif st.session_state.camera_stage == "preview":
+        st.success("✅ Đã lưu ảnh vào mục hiện tại.")
+        st.image(st.session_state.last_captured_image, use_container_width=True)
+
+        if st.button("📸 Chụp tiếp ảnh mới", type="primary"):
+            st.session_state.camera_key_counter += 1
+            st.session_state.camera_stage = "capture"
+            st.rerun()
+
+    # Hiển thị ảnh đã chụp
     st.markdown("---")
-    st.subheader(f"Các ảnh đã chụp cho mục này")
-    
-    current_images = st.session_state.camera_images.get(selected_product_name, {}).get(selected_category, [])
-    
+    st.subheader(f"🖼️ Các ảnh đã chụp cho mục này")
+    current_images = st.session_state.camera_images[selected_product_name][selected_category]
+
     if not current_images:
-        st.info("Chưa có ảnh nào cho mục này.")
+        st.info("Chưa có ảnh nào.")
     else:
-        cols = st.columns(4) 
-        for i, img_bytes in enumerate(current_images):
+        cols = st.columns(4)
+        for i, img in enumerate(current_images):
             with cols[i % 4]:
-                st.image(img_bytes, use_container_width=True)
-                if st.button(f"Xóa ảnh {i+1}", key=f"del_{selected_product_name}_{selected_category}_{i}", use_container_width=True):
-                    del st.session_state.camera_images[selected_product_name][selected_category][i]
+                st.image(img, use_container_width=True)
+                if st.button(f"❌ Xóa ảnh {i+1}", key=f"del_{selected_product_name}_{selected_category}_{i}"):
+                    del current_images[i]
                     st.rerun()
+
 
     # --- TẠO, UPLOAD VÀ TẢI BÁO CÁO (LOGIC MỚI) ---
     # ==========================================================
