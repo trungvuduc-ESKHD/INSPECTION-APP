@@ -6,7 +6,7 @@ from src.ui.forms.container_status_form import render_container_status
 
 def render_general_tab():
     """Render the general information tab with unique keys for all widgets."""
-    create_styled_header("Thông tin chung/General Information")
+    create_styled_header("General Information")
     
     # Lấy ra generalInfo để code gọn hơn
     # Dùng st.session_state.get('inspection_data', {}) để phòng trường hợp chưa có
