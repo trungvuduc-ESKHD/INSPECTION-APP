@@ -95,7 +95,7 @@ def handle_new_photo():
 # HÀM RENDER CHÍNH CỦA TAB
 # ===================================================================
 def render_camera_tab():
-    st.header("📸 Chụp ảnh báo cáo (bằng camera điện thoại)")
+    st.header("📸 Chụp ảnh báo cáo")
 
     # Khởi tạo các biến trong session state nếu chưa có
     if 'camera_images' not in st.session_state:
@@ -123,7 +123,7 @@ def render_camera_tab():
         st.session_state.camera_images[selected_product_name] = {cat: [] for cat in categories}
 
     st.markdown("---")
-    st.subheader(f"📤 3. Tải ảnh hoặc chụp bằng camera sau")
+    st.subheader(f"📤 3. Tải ảnh hoặc chụp ảnh")
 
     st.info("📌 Bạn có thể chọn nhiều ảnh hoặc chụp trực tiếp bằng camera (nếu trình duyệt hỗ trợ).")
     uploaded_files = st.file_uploader(
