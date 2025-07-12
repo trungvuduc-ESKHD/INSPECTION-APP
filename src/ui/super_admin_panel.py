@@ -537,11 +537,12 @@ def render_super_admin_panel_page():
         st.markdown('<div class="form-group">', unsafe_allow_html=True)
         st.markdown('<label class="form-label">👤 Chọn tài khoản để chỉnh sửa</label>', unsafe_allow_html=True)
         selected_user = st.selectbox(
-            "", 
+            "Chọn người dùng", 
             options=[user.get("username") for user in users_data],
             key="edit_user_select",
             label_visibility="collapsed"
         )
+
 
         st.markdown('</div>', unsafe_allow_html=True)
         
