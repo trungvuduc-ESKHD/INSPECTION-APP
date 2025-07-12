@@ -48,7 +48,7 @@ Hệ thống giám định Eurofins
 
 2. Chạy ứng dụng:
    ```bash
-   streamlit run main.py
+   python -m streamlit run main.py
    ```
 
 ## Tính năng / Features
