@@ -397,18 +397,17 @@ def render_homepage():
     
     st.markdown('<div style="text-align: center; margin: 3rem 0;">', unsafe_allow_html=True)
 
-    if st.button("🚀 Bắt Đầu Phân Tích Ngay", key="start_button"):
-        st.session_state.menu = "Danh sách Báo cáo"
-        st.experimental_rerun()
-        st.stop()  # <== Đảm bảo dừng ngay sau khi rerun
-
-    # Các dòng bên dưới sẽ chỉ được gọi nếu KHÔNG bấm nút
-    st.markdown("""
-        <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
-            Vui lòng chọn chức năng từ menu bên trái để bắt đầu!
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    # Call to Action
+        st.markdown("""
+        <div style="text-align: center; margin: 3rem 0;">
+            <div class="cta-button">
+                🚀 Bắt Đầu Phân Tích Ngay
+            </div>
+            <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
+                Vui lòng chọn chức năng từ menu bên trái để bắt đầu!
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
 
     # Footer
     st.markdown("""
