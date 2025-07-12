@@ -558,12 +558,13 @@ def render_super_admin_panel_page():
             st.markdown('<div class="form-group">', unsafe_allow_html=True)
             st.markdown('<label class="form-label">🔄 Chọn vai trò mới</label>', unsafe_allow_html=True)
             new_role = st.selectbox(
-                "", 
+                "Chọn vai trò",
                 ["user", "admin", "manager", "super_admin"],
                 index=["user", "admin", "manager", "super_admin"].index(current_role),
                 key="new_role_select",
                 label_visibility="collapsed"
             )
+
             st.markdown('</div>', unsafe_allow_html=True)
             
             if current_role != new_role:
