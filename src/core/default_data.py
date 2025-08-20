@@ -5,7 +5,9 @@ def get_fixed_defects_structure():
     """Cung cấp cấu trúc lỗi cố định."""
     return {
         "seriousDefects": [
-            {"defectType": "LỖI NGHIÊM TRỌNG/ SERIOUS DEFECTS", "description": "Sự suy giảm hoặc biến đổi...", "weight": "", "percentage": ""}
+            {"defectType": "LỖI NGHIÊM TRỌNG/ SERIOUS DEFECTS", "description": "Sự suy giảm hoặc biến đổi, sự phá hủy mềm của vỏ hoặc quả do nấm hoặc nhiễm khuẩn: thối đen; nấm mốc trắng;
+bệnh đốm đen; nấm mốc xám…/Deterioration or alteration, soft breakdown of the skin or berry caused by fungus or
+bacterial infection: black rot; powdery mildew; anthracnose; grey mould...", "weight": "", "percentage": ""}
         ],
         "majorDefects": [
             {"defectType": "MAJOR 1 DEFECTS", "description": "HƯ HỎNG DO CÔN TRÙNG...", "weight": "", "percentage": ""},
@@ -47,4 +49,5 @@ def get_default_inspection_data():
         'comments': '', 'qualityComments': '',
         'inspectorName': '', 'reviewerName': '',
         'inspector_signature': None, 'reviewer_signature': None,
+
     }
