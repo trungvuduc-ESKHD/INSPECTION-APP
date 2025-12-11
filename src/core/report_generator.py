@@ -49,7 +49,7 @@ class PDF(FPDF):
             self.image(self.logo_path, x=10, y=8, w=40)
         self.set_y(15)
         self.set_font(self.font_name, 'B', 14)
-        self.cell(w=0, h=10, txt='INSPECTION REPORT', border=0, ln=1, align='C')
+        self.cell(w=0, h=10, txt='INSPECTION REPORT FRESH APPLES', border=0, ln=1, align='C')
         
         top_box_y = self.get_y()
         self.set_xy(120, top_box_y)
@@ -84,14 +84,14 @@ class PDF(FPDF):
         
         cell_height = 12
         y_start_info = self.get_y()
-        self._draw_bordered_kv('Nguồn gốc - Tên nhà cung cấp', data['generalInfo'].get('supplierName', ''), 95, cell_height)
+        self._draw_bordered_kv('Tên nhà cung cấp - Xuất xứ', data['generalInfo'].get('supplierName', ''), 95, cell_height)
         self._draw_bordered_kv('Tên khách hàng', data['generalInfo'].get('customerName', ''), 95, cell_height)
         self.set_xy(10, y_start_info + cell_height)
         self._draw_bordered_kv('Số hợp đồng', data['generalInfo'].get('contractNumber', ''), 95, cell_height)
-        self._draw_bordered_kv('Tổng lượng kiện được nhận (carton)', data['generalInfo'].get('receivedQuantity', ''), 95, cell_height)
+        self._draw_bordered_kv('Số thùng được nhận (carton)', data['generalInfo'].get('receivedQuantity', ''), 95, cell_height)
         self.set_xy(10, y_start_info + 2 * cell_height)
         self._draw_bordered_kv('Số container/ xe lạnh', data['generalInfo'].get('containerNumber', ''), 95, cell_height)
-        self._draw_bordered_kv('Ngày hàng đến/ ETA', data['generalInfo'].get('eta', ''), 95, cell_height)
+        self._draw_bordered_kv('Ngày giờ mở cont', data['generalInfo'].get('eta', ''), 95, cell_height)
         self.set_xy(10, y_start_info + 3 * cell_height)
         self._draw_bordered_kv('Bộ phận chịu trách nhiệm', data['generalInfo'].get('department', ''), 95, cell_height)
         self._draw_bordered_kv('Kiểm hàng bởi', data['generalInfo'].get('inspectedBy', ''), 95, cell_height)
@@ -109,7 +109,7 @@ class PDF(FPDF):
         self._draw_multiline_header(10, 12, 'No', align='C', fill=True)
         self._draw_multiline_header(60, 12, 'Tên sản phẩm\nProduct name', align='C', fill=True)
         self._draw_multiline_header(25, 12, 'Kích cỡ\nSize', align='C', fill=True)
-        self._draw_multiline_header(50, 12, 'Số lượng túi được nhận\nReceived quantity of bag', align='C', fill=True)
+        self._draw_multiline_header(50, 12, 'Số lượng thùng được nhận\nReceived quantity of carton', align='C', fill=True)
         self._draw_multiline_header(45, 12, 'Khối lượng tịnh (Kgs)\nNet Weight (Kgs)', align='C', fill=True)
         self.ln(12)
         self.set_font(self.font_name, '', 9)
@@ -592,4 +592,5 @@ def generate_pdf_report(inspection_data: dict) -> bytes:
         st.error(f"Lỗi khi tạo PDF: {e}")
         import traceback
         traceback.print_exc()
+
         return None
